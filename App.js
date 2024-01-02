@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
 import { useState } from 'react';
 import {
    StyleSheet, 
@@ -10,6 +9,10 @@ import {
    FlatList
   } from 'react-native';
 //FlatList is better for long lists, ScrollView is better for short lists. FlatList only renders the items that are visible on the screen, ScrollView renders all items at once. Also does not require mapping over the array of items, just pass the array as a prop.
+
+import GoalItem from './components/GoalItem';
+import GoalInput from './components/GoalInput';
+
 export default function App() {
   const [enteredGoalText, setEnteredGoalText] = useState('');
   const [courseGoals, setCourseGoals] = useState([]);
@@ -19,10 +22,10 @@ export default function App() {
   };
 
   function addGoalHandler() {
-    setCourseGoals(currentCourseGoals => [
+    setCourseGoals((currentCourseGoals) => [
       ...currentCourseGoals, 
-      {enteredGoalText, key: uuidv4()}
-      //The uuidv4() function generates a random id for each item in the list. This is necessary for the FlatList component to work properly. The key prop is required for the FlatList component to work properly.
+      {text: enteredGoalText, key: Math.random().toString()}
+      //The key prop is required for FlatList to work properly. It is used to identify each item in the list. It must be a string.
     ]);
   };
 
@@ -35,9 +38,7 @@ export default function App() {
       <View style={styles.goalsContainer}>
         <FlatList data={courseGoals} renderItem={(itemData) => {
           return (
-            <View style={styles.goalItem}>
-              <Text style={styles.goalText}>{itemData.item}</Text>
-            </View>
+           <GoalItem text={itemData.item.text} />
           );
         }}/>
       </View>
@@ -70,13 +71,4 @@ const styles = StyleSheet.create({
   goalsContainer: {
     flex: 5
   },
-  goalItem: {
-    margin: 8,
-    borderRadius: 10,
-    backgroundColor: '#5e0acc',
-    padding: 8,
-  },
-  goalText: {
-    color: 'white',
-  }
 });
