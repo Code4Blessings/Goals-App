@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid';
 import { useState } from 'react';
 import {
    StyleSheet, 
@@ -20,8 +21,8 @@ export default function App() {
   function addGoalHandler() {
     setCourseGoals(currentCourseGoals => [
       ...currentCourseGoals, 
-      {enteredGoalText, key: Math.random().toString()}
-      //The math.random is not a good way to generate unique keys, but it works for this example. A better way would be to use a library like uuid.
+      {enteredGoalText, key: uuidv4()}
+      //The uuidv4() function generates a random id for each item in the list. This is necessary for the FlatList component to work properly. The key prop is required for the FlatList component to work properly.
     ]);
   };
 
