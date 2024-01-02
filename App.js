@@ -1,6 +1,14 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput} from 'react-native';
-
+import {
+   StyleSheet, 
+   Text, 
+   View, 
+   Button, 
+   TextInput, 
+   ScrollView,
+   FlatList
+  } from 'react-native';
+//FlatList is better for long lists, ScrollView is better for short lists. FlatList only renders the items that are visible on the screen, ScrollView renders all items at once. Also does not require mapping over the array of items, just pass the array as a prop.
 export default function App() {
   const [enteredGoalText, setEnteredGoalText] = useState('');
   const [courseGoals, setCourseGoals] = useState([]);
@@ -12,7 +20,8 @@ export default function App() {
   function addGoalHandler() {
     setCourseGoals(currentCourseGoals => [
       ...currentCourseGoals, 
-      enteredGoalText
+      {enteredGoalText, key: Math.random().toString()}
+      //The math.random is not a good way to generate unique keys, but it works for this example. A better way would be to use a library like uuid.
     ]);
   };
 
@@ -23,7 +32,13 @@ export default function App() {
         <Button title='Add Goal' onPress={addGoalHandler}/>
       </View>
       <View style={styles.goalsContainer}>
-        {courseGoals.map((goal) => <Text key={goal}>{goal}</Text>)}
+        <FlatList data={courseGoals} renderItem={(itemData) => {
+          return (
+            <View style={styles.goalItem}>
+              <Text style={styles.goalText}>{itemData.item}</Text>
+            </View>
+          );
+        }}/>
       </View>
     </View>
   );
@@ -54,4 +69,13 @@ const styles = StyleSheet.create({
   goalsContainer: {
     flex: 5
   },
+  goalItem: {
+    margin: 8,
+    borderRadius: 10,
+    backgroundColor: '#5e0acc',
+    padding: 8,
+  },
+  goalText: {
+    color: 'white',
+  }
 });
