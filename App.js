@@ -13,16 +13,21 @@ export default function App() {
     setModalIsVisible(true);
   }
 
+  function endAddGoalHandler() {
+    setModalIsVisible(false);
+  }
+
   function addGoalHandler(enteredGoalText) {
     setCourseGoals((currentCourseGoals) => [
       ...currentCourseGoals, 
       {text: enteredGoalText, key: Math.random().toString()}
       //The key prop is required for FlatList to work properly. It is used to identify each item in the list. It must be a string.
     ]);
+    endAddGoalHandler();
   };
 
   function deleteGoalHandler(id) {
-    setCourseGoals(currentCourseGoals => {
+    setCourseGoals((currentCourseGoals) => {
       return currentCourseGoals.filter((goal) => goal.id !== id);
     });
   };
@@ -35,7 +40,8 @@ export default function App() {
         onPress={startAddGoalHandler} />
       <GoalInput 
         visible={modalIsVisible}
-        addGoal={addGoalHandler}/>
+        addGoal={addGoalHandler}
+        onCancel={endAddGoalHandler} />
       <View style={styles.goalsContainer}>
         <FlatList data={courseGoals} renderItem={(itemData) => {
           return (
