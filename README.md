@@ -1,5 +1,9 @@
 # Goals App inspired by the React-Native Course by Academind aka Maximilian Schwarzmüller (Udemy Course)
 
+- To start the app, use the "npm start" command in the command line.
+
+- Is compatible with both Iphone (real device) and Android
+
 ## Goals App
 
 **This project uses the following:**
